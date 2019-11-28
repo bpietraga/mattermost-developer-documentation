@@ -6,13 +6,14 @@ dist: plugin-data
 
 plugin-data:
 	go get ./...
-	go get -u -v github.com/mattermost/mattermost-server/mlog
+	go get -u github.com/mattermost/mattermost-server/mlog
+	go get -u github.com/mattermost/go-i18n/i18n
 	$(MAKE) backend-plugin-data
 	$(MAKE) frontend-plugin-data
 	$(MAKE) devtalks-data
 
 backend-plugin-data:
-	go get -u -v github.com/mattermost/mattermost-server/plugin
+	go get -u github.com/mattermost/mattermost-server/plugin
 	mkdir -p site/data
 	go run scripts/plugin-godocs.go > site/data/PluginGoDocs.json
 	go run scripts/plugin-manifest-docs.go > site/data/PluginManifestDocs.json
