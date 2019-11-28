@@ -5,9 +5,10 @@ dist: plugin-data
 	cd site && hugo --destination ../dist/html
 
 plugin-data:
-	go get ./...
 	go get -u github.com/mattermost/mattermost-server/mlog
+	go get -u github.com/mattermost/mattermost-server/model
 	go get -u github.com/mattermost/go-i18n/i18n
+	go get ./...
 	$(MAKE) backend-plugin-data
 	$(MAKE) frontend-plugin-data
 	$(MAKE) devtalks-data
