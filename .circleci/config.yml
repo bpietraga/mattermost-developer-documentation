@@ -2,9 +2,9 @@ version: 2.1
 
 executors:
   default:
-    working_directory: /go/src/github.com/mattermost/
+    working_directory: ~/Sites/mattermost-developer-documentation
     docker:
-      - image: circleci/golang:1.13
+      - image: circleci/golang:1.12
 
 jobs:
   build:
