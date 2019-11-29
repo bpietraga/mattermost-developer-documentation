@@ -1,19 +1,20 @@
-FROM golang:1.13.4-alpine3.10
+FROM circleci/golang:1.12
 
 ENV HUGO_VERSION '0.58.3'
 ENV GO111MODULE  'on'
 
 WORKDIR /go/src/github.com/mattermost/mattermost-developer-documentation
 
-RUN echo $GOPATH
-
-RUN apk update && \
-    apk add git gcc libc-dev tar make
+USER root
 
 COPY . .
-RUN mkdir bin && \
-    wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -O /tmp/hugo.tar.gz && \
-    tar -xvf /tmp/hugo.tar.gz hugo && mv hugo bin && \
-    export PATH=$PATH:bin && \
-    mkdir vendor && \
-    make dist
+
+RUN wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -O hugo.tar.gz && \
+    tar -xvf hugo.tar.gz hugo && \
+    mv hugo /usr/bin && \
+    rm -rf hugo.tar.gz && \
+    export PATH=$PATH:bin
+
+RUN make dist
+
+USER circleci
