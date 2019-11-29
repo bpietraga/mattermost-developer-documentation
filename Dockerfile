@@ -7,8 +7,6 @@ WORKDIR /go/src/github.com/mattermost/mattermost-developer-documentation
 
 USER root
 
-RUN go get -u github.com/mattermost/mattermost-server
-
 COPY . .
 
 RUN wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -O hugo.tar.gz && \
