@@ -10,3 +10,5 @@ replace (
 	github.com/nicksnyder/go-i18n => github.com/nicksnyder/go-i18n v1.10.1
 	gopkg.in/asn1-ber.v1 => github.com/go-asn1-ber/asn1-ber v1.3.2-0.20191121212151-29be175fc3a3
 )
+
+require github.com/mattermost/mattermost-server v5.11.1+incompatible // indirect
