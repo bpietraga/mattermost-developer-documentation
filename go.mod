@@ -12,4 +12,5 @@ replace (
 	golang.org/x/sys => golang.org/x/sys master
 	github.com/golang/protobuf => github.com/golang/protobuf master
 	github.com/google/uuid => github.com/google/uuid master
+	github.com/hashicorp/yamux => github.com/hashicorp/yamux master
 )
