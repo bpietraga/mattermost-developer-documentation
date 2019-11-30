@@ -20,6 +20,7 @@ jobs:
             echo "export PATH=$PATH:bin" >> $BASH_ENV
             echo "export HUGO_VERSION='0.58.3'" >> $BASH_ENV
             source $BASH_ENV
+      - run: go get -u github.com/mattermost/mattermost-server
       - run: wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -O /tmp/hugo.tar.gz
       - run: tar -xvf /tmp/hugo.tar.gz hugo && mv hugo bin
       - run: make dist
