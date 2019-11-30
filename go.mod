@@ -11,4 +11,5 @@ replace (
 	gopkg.in/asn1-ber.v1 => github.com/go-asn1-ber/asn1-ber v1.3.2-0.20191121212151-29be175fc3a3
 	golang.org/x/sys => golang.org/x/sys master
 	github.com/golang/protobuf => github.com/golang/protobuf master
+	github.com/google/uuid => github.com/google/uuid master
 )
