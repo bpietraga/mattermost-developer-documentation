@@ -13,4 +13,5 @@ replace (
 	github.com/golang/protobuf => github.com/golang/protobuf master
 	github.com/google/uuid => github.com/google/uuid master
 	github.com/hashicorp/yamux => github.com/hashicorp/yamux master
+	gopkg.in/jcmturner/aescts.v1 => github.com/jcmturner/aescts master
 )
