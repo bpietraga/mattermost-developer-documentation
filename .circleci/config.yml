@@ -3,7 +3,7 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: golang:1.12.13-buster
+      - image: golang:1.12.13
 
 aliases:
 - &restore_cache
