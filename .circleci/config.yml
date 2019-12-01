@@ -59,7 +59,7 @@ jobs:
           name: devtalks-data
           command: |
             mkdir -p site/data
-            if [[ -z "$YOUTUBE_API_KEY" ]]; then
+            if [[ -z $YOUTUBE_API_KEY ]]; then
               echo 'YOUTUBE_API_KEY is not defined'
             else
               go run scripts/devtalks.go > site/data/DevTalks.json
