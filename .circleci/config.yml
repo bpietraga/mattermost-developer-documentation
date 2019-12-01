@@ -24,6 +24,30 @@ jobs:
             mkdir -p site/data
             go run scripts/plugin-godocs.go > site/data/PluginGoDocs.json
             go run scripts/plugin-manifest-docs.go > site/data/PluginManifestDocs.json
+      - run:
+          name: frontend-plugin-data
+          command: |
+            rm -rf scripts/mattermost-webapp
+            cd scripts && git clone https://github.com/mattermost/mattermost-webapp.git
+            cd scripts && npm install
+            mkdir -p site/data
+            node scripts/plugin-jsdocs.js > site/data/PluginJSDocs.json
+      - run:
+          name: devtalks-data
+          command: |
+            mkdir -p site/data
+            ifdef YOUTUBE_API_KEY
+              go run scripts/devtalks.go > site/data/DevTalks.json
+            endif
+      - run:
+          name: run hugo
+          command: |
+            HUGO_VERSION="0.58.3"
+            export PATH=$PATH:$PWD/bin
+            wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -O /tmp/hugo.tar.gz
+            tar -xvf /tmp/hugo.tar.gz hugo && mv hugo bin
+            rm -rf ./dist
+            cd site && hugo --destination ../dist/html
 
 workflows:
   version: 2
