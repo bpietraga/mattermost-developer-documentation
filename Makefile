@@ -4,12 +4,7 @@ dist: plugin-data
 	rm -rf ./dist
 	cd site && hugo --destination ../dist/html
 
-plugin-data: fix_go_zap backend-plugin-data frontend-plugin-data devtalks-data
-
-fix_go_zap:
-	mkdir -p $GOPATH/src/go.uber.org
-	cd $GOPATH/src/go.uber.org
-	git clone https://github.com/uber-go/zap.git
+plugin-data: backend-plugin-data frontend-plugin-data devtalks-data
 
 backend-plugin-data:
 	go get -u -v github.com/mattermost/mattermost-server/plugin
