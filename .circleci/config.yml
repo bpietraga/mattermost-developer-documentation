@@ -41,8 +41,7 @@ jobs:
       - image: mattermost/mattermost-build-server:oct-18-2019
     working_directory: /go/src/github.com/mattermost/mattermost-developer-documentation
     steps:
-      - attach_workspace:
-          at: /go/src/github.com/mattermost/
+      - git clone github.com/mattermost/mattermost-server.git /go/src/github.com/mattermost/mattermost-server
       - checkout
       - run: make dist
       - persist_to_workspace:
