@@ -35,6 +35,8 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $GOPATH/src/go.uber.org && cd $GOPATH/src/go.uber.org && git clone https://github.com/uber-go/zap.git $GOPATH/src/go.uber.org/zap && git clone https://github.com/uber-go/atomic $GOPATH/src/go.uber.org/atomic
+      - run: mkdir -p $GOPATH/src/go.uber.org && cd $GOPATH/src/go.uber.org && git clone https://github.com/uber-go/multierr.git $GOPATH/src/go.uber.org/multierr
+      - run: mkdir -p $GOPATH/src/hashicorp && git clone https://github.com/hashicorp/go-hclog.git $GOPATH/src/hashicorp/go-hclog
       - run: mkdir -p $GOPATH/src/hashicorp && git clone https://github.com/hashicorp/go-hclog.git $GOPATH/src/hashicorp/go-hclog
       - run: make dist
       - check-uncommitted
