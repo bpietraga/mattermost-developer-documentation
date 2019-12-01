@@ -36,10 +36,11 @@ jobs:
       - checkout
       - run: mkdir -p $GOPATH/src/github.com/mattermost/ && git clone https://github.com/mattermost/mattermost-server.git $GOPATH/src/github.com/mattermost/mattermost-server && cd $GOPATH/src/github.com/mattermost/mattermost-server && git reset --hard v5.17.1
       - run: mkdir -p site/data
+      - run: go run scripts/plugin-godocs.go
       - run: go run scripts/plugin-godocs.go > site/data/PluginGoDocs.json
       - run: go run scripts/plugin-manifest-docs.go > site/data/PluginManifestDocs.json
-      - check-uncommitted
-      - *save_cache
+      # - check-uncommitted
+      # - *save_cache
 
 workflows:
   version: 2
