@@ -23,8 +23,6 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install -y nodejs npm
-            which node
-            which npm
       - run:
           name: build Hugo
           command: |
@@ -69,8 +67,6 @@ jobs:
           name: run hugo
           command: |
             source $BASH_ENV
-            echo site/data/PluginGoDocs.json
-            cat site/data/PluginGoDocs.json
             cd site && hugo --destination ../dist/html
 
 workflows:
