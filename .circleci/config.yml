@@ -26,11 +26,9 @@ jobs:
           export WEBAPP_GIT_COMMIT=$(git rev-parse HEAD)
           echo "$WEBAPP_GIT_COMMIT"
           export CURL_FAILED=0
-          curl -f -o ./dist.tar.gz https://releases.mattermost.com/mattermost-webapp/commit/${WEBAPP_GIT_COMMIT}/mattermost-webapp.tar.gz && mkdir ./dist && tar -xvf ./dist.tar.gz -C ./dist --strip-components=1 || export CURL_FAILED=1
-
           if [ $CURL_FAILED -eq 1 ]
           then
-            npm ci && make build
+            make build
           fi
       - persist_to_workspace:
           root: /go/src/github.com/mattermost
