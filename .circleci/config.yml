@@ -34,7 +34,7 @@ jobs:
       name: default
     steps:
       - checkout
-      - run: mkdir -p $GOPATH/src/github.com/mattermost/ && git clone https://github.com/mattermost/mattermost-server.git $GOPATH/src/github.com/mattermost/mattermost-server
+      - run: mkdir -p $GOPATH/src/github.com/mattermost/ && git clone https://github.com/mattermost/mattermost-server.git $GOPATH/src/github.com/mattermost/mattermost-server && cd $GOPATH/src/github.com/mattermost/mattermost-server && git reset --hard v5.17.1
       - run: GO111MODULE=off go get -u -fix github.com/mattermost/mattermost-server/...
       - run: mkdir -p $GOPATH/src/go.uber.org && cd $GOPATH/src/go.uber.org && git clone https://github.com/uber-go/zap.git $GOPATH/src/go.uber.org/zap && git clone https://github.com/uber-go/atomic $GOPATH/src/go.uber.org/atomic
       - run: mkdir -p $GOPATH/src/go.uber.org && cd $GOPATH/src/go.uber.org && git clone https://github.com/uber-go/multierr.git $GOPATH/src/go.uber.org/multierr
