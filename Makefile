@@ -7,8 +7,9 @@ dist: plugin-data
 plugin-data: backend-plugin-data frontend-plugin-data devtalks-data
 
 backend-plugin-data:
-	go get -v github.com/mattermost/mattermost-server/plugin
+	go get -u -v github.com/mattermost/mattermost-server/plugin
 	mkdir -p site/data
+	"$(which go)"
 	go run scripts/plugin-godocs.go > site/data/PluginGoDocs.json
 	go run scripts/plugin-manifest-docs.go > site/data/PluginManifestDocs.json
 
