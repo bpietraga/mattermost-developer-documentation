@@ -146,13 +146,11 @@ func generateDocs() (*Docs, error) {
 
 	for path, pkg := range pkgs {
 		matched, regexpErr := regexp.Match(`_test`, []byte(path))
-		if regexpErr != nil {
-			fmt.Println("match not")
-		}
-		if matched {
-			continue
-		}
-		fmt.Println(matched,"INFOOO", path, "\n", pkg, "\n")
+		// if regexpErr != nil {
+		// }
+		// if matched {
+		// 	continue
+		// }
 
 		info, err := typeCheck(pkg, "github.com/mattermost/mattermost-server/"+path, fset)
 		if err != nil {
