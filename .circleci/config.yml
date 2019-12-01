@@ -12,15 +12,18 @@ jobs:
     steps:
       - checkout
       - run:
-          name: clone-mattermost-server
+          name: Clone mattermost-server
           command: |
             mkdir -p $GOPATH/src/github.com/mattermost/
             git clone https://github.com/mattermost/mattermost-server.git $GOPATH/src/github.com/mattermost/mattermost-server
             cd $GOPATH/src/github.com/mattermost/mattermost-server
             git reset --hard v5.17.1
-      - run: mkdir -p site/data
-      - run: go run scripts/plugin-godocs.go > site/data/PluginGoDocs.json
-      - run: go run scripts/plugin-manifest-docs.go > site/data/PluginManifestDocs.json
+      - run:
+          name: backend-plugin-data
+          command: |
+            mkdir -p site/data
+            go run scripts/plugin-godocs.go > site/data/PluginGoDocs.json
+            go run scripts/plugin-manifest-docs.go > site/data/PluginManifestDocs.json
 
 workflows:
   version: 2
