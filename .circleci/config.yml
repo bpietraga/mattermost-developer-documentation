@@ -38,6 +38,10 @@ jobs:
       - run: mkdir -p $GOPATH/src/go.uber.org && cd $GOPATH/src/go.uber.org && git clone https://github.com/uber-go/multierr.git $GOPATH/src/go.uber.org/multierr
       - run: mkdir -p $GOPATH/src/hashicorp && git clone https://github.com/hashicorp/go-plugin.git $GOPATH/src/hashicorp/go-plugin
       - run: mkdir -p $GOPATH/src/hashicorp && git clone https://github.com/hashicorp/go-hclog.git $GOPATH/src/hashicorp/go-hclog
+      - run: go get -u -v github.com/mattermost/mattermost-server/plugin
+      - run: mkdir -p site/data
+      - run: go run scripts/plugin-godocs.go > site/data/PluginGoDocs.json
+      - run: go run scripts/plugin-manifest-docs.go > site/data/PluginManifestDocs.json
       # - run: sudo chmod -R 777 /go/
       - run: make dist
       - check-uncommitted
