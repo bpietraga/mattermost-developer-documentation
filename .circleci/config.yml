@@ -23,6 +23,8 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install -y nodejs npm
+            which node
+            which npm
       - run:
           name: build Hugo
           command: |
@@ -49,7 +51,7 @@ jobs:
             rm -rf scripts/mattermost-webapp
             cd scripts
             git clone https://github.com/mattermost/mattermost-webapp.git
-            /usr/local/bin/npm install
+            npm install
             cd $MAIN_DIR
             mkdir -p site/data
             node scripts/plugin-jsdocs.js > site/data/PluginJSDocs.json
