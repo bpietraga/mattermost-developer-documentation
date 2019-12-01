@@ -34,7 +34,6 @@ jobs:
       name: default
     steps:
       - checkout
-      - *restore_cache
       - run: make dist
       - check-uncommitted
       - *save_cache
