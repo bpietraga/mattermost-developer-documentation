@@ -17,7 +17,7 @@ jobs:
             echo "export PATH=$GOPATH/bin:$PATH" >> $BASH_ENV
             echo "export PATH=$PATH:$PWD/bin" >> $BASH_ENV
             echo "HUGO_VERSION='0.58.3'" >> $BASH_ENV
-            echo "MATTERMOST_SERVER_VERSION=v5.17.1" >> $BASH_ENV
+            echo "MATTERMOST_SERVER_RELEASE_TAG=v5.17.1" >> $BASH_ENV
             source $BASH_ENV
       - run:
           name: install Node JS
@@ -36,7 +36,7 @@ jobs:
             mkdir -p $GOPATH/src/github.com/mattermost/
             git clone https://github.com/mattermost/mattermost-server.git $GOPATH/src/github.com/mattermost/mattermost-server
             cd $GOPATH/src/github.com/mattermost/mattermost-server
-            git reset --hard $MATTERMOST_SERVER_VERSION
+            git reset --hard $MATTERMOST_SERVER_RELEASE_TAG
       - run:
           name: backend-plugin-data
           command: |
