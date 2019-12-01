@@ -35,7 +35,7 @@ jobs:
     steps:
       - checkout
       - run: sudo mkdir -p $GOPATH/src/go.uber.org && sudo git clone https://github.com/uber-go/zap.git /root/go/src/go.uber.org/zap && sudo git clone https://github.com/uber-go/atomic /root/go/src/go.uber.org/atomic
-      - run: sudo mkdir -p /root/go/src/go.uber.org && && sudo git clone https://github.com/uber-go/multierr.git /root/go/src/go.uber.org/multierr
+      - run: sudo mkdir -p /root/go/src/go.uber.org && sudo git clone https://github.com/uber-go/multierr.git /root/go/src/go.uber.org/multierr
       - run: sudo mkdir -p /root/go/src/hashicorp && sudo git clone https://github.com/hashicorp/go-plugin.git /root/go/src/hashicorp/go-plugin
       - run: sudo git clone https://github.com/hashicorp/go-hclog.git /root/go/src/hashicorp/go-hclog
       - run: which go
