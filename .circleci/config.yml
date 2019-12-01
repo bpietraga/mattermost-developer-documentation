@@ -1,0 +1,75 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: circleci/golang:1.12
+
+jobs:
+  build:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=$GOPATH/bin:$PATH" >> $BASH_ENV
+            echo "export PATH=$PATH:$PWD/bin" >> $BASH_ENV
+            echo "HUGO_VERSION='0.58.3'" >> $BASH_ENV
+            echo "MATTERMOST_SERVER_RELEASE_TAG=v5.17.1" >> $BASH_ENV
+            source $BASH_ENV
+      - run:
+          name: install Node JS
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y nodejs npm
+      - run:
+          name: build Hugo
+          command: |
+            wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -O /tmp/hugo.tar.gz
+            tar -xvf /tmp/hugo.tar.gz hugo
+            sudo mv hugo /usr/bin/
+      - run:
+          name: git clone mattermost-server release
+          command: |
+            mkdir -p $GOPATH/src/github.com/mattermost/
+            git clone https://github.com/mattermost/mattermost-server.git $GOPATH/src/github.com/mattermost/mattermost-server
+            cd $GOPATH/src/github.com/mattermost/mattermost-server
+            git reset --hard $MATTERMOST_SERVER_RELEASE_TAG
+      - run:
+          name: backend-plugin-data
+          command: |
+            mkdir -p site/data
+            go run scripts/plugin-godocs.go > site/data/PluginGoDocs.json
+            go run scripts/plugin-manifest-docs.go > site/data/PluginManifestDocs.json
+      - run:
+          name: frontend-plugin-data
+          command: |
+            MAIN_DIR=$PWD
+            rm -rf scripts/mattermost-webapp
+            cd scripts
+            git clone https://github.com/mattermost/mattermost-webapp.git
+            npm install
+            cd $MAIN_DIR
+            mkdir -p site/data
+            node scripts/plugin-jsdocs.js > site/data/PluginJSDocs.json
+      - run:
+          name: devtalks-data
+          command: |
+            mkdir -p site/data
+            if [[ -z $YOUTUBE_API_KEY ]]; then
+              echo 'YOUTUBE_API_KEY is not defined'
+            else
+              go run scripts/devtalks.go > site/data/DevTalks.json
+            fi
+      - run:
+          name: run hugo
+          command: |
+            cd site && hugo --destination ../dist/html
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - build
