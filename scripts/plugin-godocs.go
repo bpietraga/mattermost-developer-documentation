@@ -145,7 +145,7 @@ func generateDocs() (*Docs, error) {
 	}
 
 	for path, pkg := range pkgs {
-		matched, regexpErr := regexp.Match(`_test`, []byte(path))
+		// matched, regexpErr := regexp.Match(`_test`, []byte(path))
 		// if regexpErr != nil {
 		// }
 		// if matched {
