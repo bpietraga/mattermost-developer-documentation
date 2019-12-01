@@ -134,7 +134,6 @@ func generateDocs() (*Docs, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	fset := token.NewFileSet()
 	pkgs, err := parser.ParseDir(fset, imp.Dir, nil, parser.ParseComments)
 	if err != nil {
@@ -146,6 +145,15 @@ func generateDocs() (*Docs, error) {
 	}
 
 	for path, pkg := range pkgs {
+		matched, regexpErr := regexp.Match(`_test`, []byte(path))
+		if regexpErr != nil {
+			fmt.Println("match not")
+		}
+		if matched {
+			continue
+		}
+		fmt.Println(matched,"INFOOO", path, "\n", pkg, "\n")
+
 		info, err := typeCheck(pkg, "github.com/mattermost/mattermost-server/"+path, fset)
 		if err != nil {
 			return nil, err
