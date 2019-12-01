@@ -21,8 +21,7 @@ jobs:
       - run:
           name: install Node JS
           command: |
-            apt-get update
-            apt-get install node-js
+            apt-get install -y node-js
       - run:
           name: build Hugo
           command: |
