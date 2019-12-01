@@ -22,7 +22,7 @@ jobs:
           name: install Node JS
           command: |
             sudo apt-get update
-            sudo apt-get install -y nodejs
+            sudo apt-get install -y nodejs npm
       - run:
           name: build Hugo
           command: |
