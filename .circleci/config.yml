@@ -5,42 +5,22 @@ executors:
     docker:
       - image: circleci/golang:1.12
 
-aliases:
-- &restore_cache
-  restore_cache:
-    key: go-mod-v1-{{ checksum "go.sum" }}
-- &save_cache
-  save_cache:
-    key: go-mod-v1-{{ checksum "go.sum" }}
-    paths:
-    - "/go/pkg/mod"
-
-commands:
-  check-uncommitted:
-    description: Check for uncommitted changes.
-    steps:
-      - run:
-          name: Check for uncomitted changes using git porcelain command.
-          command: |
-            if [[ `git status --porcelain` ]]; then
-              echo "ERROR: uncommitted changes"
-              git status --porcelain
-              exit 1
-            fi
-
 jobs:
   build:
     executor:
       name: default
     steps:
       - checkout
-      - run: mkdir -p $GOPATH/src/github.com/mattermost/ && git clone https://github.com/mattermost/mattermost-server.git $GOPATH/src/github.com/mattermost/mattermost-server && cd $GOPATH/src/github.com/mattermost/mattermost-server && git reset --hard v5.17.1
+      - run:
+          name: clone-mattermost-server
+          command: |
+            mkdir -p $GOPATH/src/github.com/mattermost/
+            git clone https://github.com/mattermost/mattermost-server.git $GOPATH/src/github.com/mattermost/mattermost-server
+            cd $GOPATH/src/github.com/mattermost/mattermost-server
+            git reset --hard v5.17.1
       - run: mkdir -p site/data
-      - run: go run scripts/plugin-godocs.go
       - run: go run scripts/plugin-godocs.go > site/data/PluginGoDocs.json
       - run: go run scripts/plugin-manifest-docs.go > site/data/PluginManifestDocs.json
-      # - check-uncommitted
-      # - *save_cache
 
 workflows:
   version: 2
