@@ -1,62 +1,46 @@
 version: 2.1
 
-orbs:
-  aws-s3: circleci/aws-s3@1.0.11
-
 executors:
-  ubuntu:
-    working_directory: ~/go/src/github.com/mattermost/
-    machine:
-      image: "ubuntu-1604:201903-01"
-    environment:
-      COMPOSE_PROJECT_NAME: "circleci"
+  default:
+    docker:
+      - image: circleci/golang:1.13
+
+aliases:
+- &restore_cache
+  restore_cache:
+    key: go-mod-v1-{{ checksum "go.sum" }}
+- &save_cache
+  save_cache:
+    key: go-mod-v1-{{ checksum "go.sum" }}
+    paths:
+    - "/go/pkg/mod"
+
+commands:
+  check-uncommitted:
+    description: Check for uncommitted changes.
+    steps:
+      - run:
+          name: Check for uncomitted changes using git porcelain command.
+          command: |
+            if [[ `git status --porcelain` ]]; then
+              echo "ERROR: uncommitted changes"
+              git status --porcelain
+              exit 1
+            fi
 
 jobs:
-  setup:
-    working_directory: /go/src/github.com/mattermost/mattermost-server
-    docker:
-      - image: mattermost/mattermost-build-webapp:oct-2-2018
-    steps:
-      - checkout
-      - run: |
-          cd ../
-          GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --depth=1 git@github.com:mattermost/mattermost-webapp.git
-          cd mattermost-webapp
-          git checkout $CIRCLE_BRANCH || git checkout master
-          export WEBAPP_GIT_COMMIT=$(git rev-parse HEAD)
-          echo "$WEBAPP_GIT_COMMIT"
-          export CURL_FAILED=0
-          if [ $CURL_FAILED -eq 1 ]
-          then
-            make build
-          fi
-      - persist_to_workspace:
-          root: /go/src/github.com/mattermost
-          paths:
-            - mattermost-webapp
-            - mattermost-server
-
   build:
-    docker:
-      - image: mattermost/mattermost-build-server:oct-18-2019
-    working_directory: /go/src/github.com/mattermost/mattermost-developer-documentation
+    executor:
+      name: default
     steps:
-      - git clone github.com/mattermost/mattermost-server.git /go/src/github.com/mattermost/mattermost-server
       - checkout
+      - *restore_cache
       - run: make dist
-      - persist_to_workspace:
-          root: /go/src/github.com/mattermost
-          paths:
-            - mattermost-server
-            - mattermost-webapp
+      - check-uncommitted
+      - *save_cache
+
 workflows:
   version: 2
-  untagged-build:
+  ci:
     jobs:
-      - setup
-      # - check-i18n:
-      #     requires:
-      #       - setup
-      - build:
-          requires:
-            - setup
+      - build
