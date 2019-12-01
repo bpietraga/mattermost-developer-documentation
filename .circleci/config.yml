@@ -38,7 +38,7 @@ jobs:
       - run: mkdir -p $GOPATH/src/go.uber.org && cd $GOPATH/src/go.uber.org && git clone https://github.com/uber-go/multierr.git $GOPATH/src/go.uber.org/multierr
       - run: mkdir -p $GOPATH/src/hashicorp && git clone https://github.com/hashicorp/go-plugin.git $GOPATH/src/hashicorp/go-plugin
       - run: mkdir -p $GOPATH/src/hashicorp && git clone https://github.com/hashicorp/go-hclog.git $GOPATH/src/hashicorp/go-hclog
-      - run: sudo chmod -R 777 /go/
+      # - run: sudo chmod -R 777 /go/
       - run: make dist
       - check-uncommitted
       - *save_cache
