@@ -33,10 +33,7 @@ jobs:
       - run:
           name: git clone mattermost-server release
           command: |
-            mkdir -p $GOPATH/src/github.com/mattermost/
-            git clone https://github.com/mattermost/mattermost-server.git $GOPATH/src/github.com/mattermost/mattermost-server
-            cd $GOPATH/src/github.com/mattermost/mattermost-server
-            git reset --hard $MATTERMOST_SERVER_RELEASE_TAG
+            GO111MODULE=on go get -u -v github.com/mattermost/mattermost-server@c81e4f87c20a717b1dc52b2b77780fa789e19148
       - run:
           name: backend-plugin-data
           command: |
