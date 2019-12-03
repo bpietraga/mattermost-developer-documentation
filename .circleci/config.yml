@@ -3,7 +3,7 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: circleci/golang:1.12
+      - image: circleci/golang:1.12-node
 
 jobs:
   build:
@@ -19,11 +19,6 @@ jobs:
             echo "HUGO_VERSION='0.58.3'" >> $BASH_ENV
             echo "MATTERMOST_SERVER_RELEASE_TAG=v5.17.1" >> $BASH_ENV
             source $BASH_ENV
-      - run:
-          name: install Node JS
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y nodejs npm
       - run:
           name: build Hugo
           command: |
